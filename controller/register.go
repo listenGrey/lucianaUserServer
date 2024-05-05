@@ -1,4 +1,4 @@
-package kafka
+package controller
 
 import (
 	"encoding/json"
@@ -10,11 +10,11 @@ import (
 	"context"
 )
 
-// Register 用户注册
-func Register() error {
+// RegisterService 用户注册
+func RegisterService(address string) error {
 	ctx := context.Background()
 	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:        []string{"localhost:9092"},
+		Brokers:        []string{address},
 		Topic:          "register",
 		CommitInterval: 1 * time.Second,
 		GroupID:        "rec_team",
