@@ -29,6 +29,23 @@ func CheckEmail(email string) (bool, error) {
 	return true, nil
 }
 
+// Register 用户注册
+func Register(u *model.User) error {
+	// 连接DB
+	client := MySQLClient()
+	if client == nil {
+		return errors.New("无法连接到MySQL")
+	}
+
+	// 插入数据
+	info := client.Create(*u)
+	if info.Error != nil {
+		return info.Error
+	}
+
+	return nil
+}
+
 // Login 用户登录
 func Login(l *user.LoginForm) (*model.LogInfo, error) {
 	// 连接DB

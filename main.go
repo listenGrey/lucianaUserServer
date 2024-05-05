@@ -7,6 +7,7 @@ import (
 	"net"
 
 	service "lucianaUserServer/grpc"
+	register "lucianaUserServer/kafka"
 )
 
 func main() {
@@ -25,4 +26,7 @@ func main() {
 		log.Fatalf("Failed to connect, %s", err)
 	}
 
+	if err = register.Register(); err != nil {
+		log.Fatalf("kafka is not available, %s", err)
+	}
 }

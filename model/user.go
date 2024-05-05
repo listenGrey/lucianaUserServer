@@ -3,10 +3,10 @@ package model
 import "github.com/listenGrey/lucianagRpcPKG/user"
 
 type User struct {
-	UserID   int64 `gorm:"primaryKey"`
-	UserName string
-	Email    string
-	Password string
+	UserID   int64  `json:"user_id" gorm:"primaryKey"`
+	UserName string `json:"user_name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type LogInfo struct {
