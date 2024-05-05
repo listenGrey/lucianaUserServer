@@ -18,8 +18,7 @@ func main() {
 	//初始化 gRpc server
 	server := grpc.NewServer()
 
-	user.RegisterCheckExistenceServer(server, &service.ExistenceServer{})
-	user.RegisterRegisterInfoServer(server, &service.RegisterServer{})
+	user.RegisterCheckExistServer(server, &service.CheckExistenceServer{})
 	user.RegisterLoginCheckServer(server, &service.LoginServer{})
 
 	if err := server.Serve(listen); err != nil {

@@ -19,28 +19,10 @@ func CheckEmail(email string) (bool, error) {
 	info := client.Where("email = ?", email).First(&u)
 
 	if info.Error != nil {
-		return false, nil
+		return false, info.Error
 	}
 
 	if info.RowsAffected == 0 {
-		return false, nil
-	}
-
-	return true, nil
-}
-
-// Register 用户注册
-func Register(u *user.RegisterForm) (bool, error) {
-	// 连接DB
-	client := MySQLClient()
-	if client == nil {
-		return false, errors.New("无法连接到MySQL")
-	}
-
-	// 插入数据
-	newUser := model.UserUnmarshal(u)
-	info := client.Create(&newUser)
-	if info.Error != nil {
 		return false, nil
 	}
 
@@ -60,7 +42,7 @@ func Login(l *user.LoginForm) (*model.LogInfo, error) {
 	info := client.Where("email = ?", l.Email).First(&u)
 
 	if info.Error != nil {
-		return nil, nil
+		return nil, info.Error
 	}
 
 	// 检查email是否存在
