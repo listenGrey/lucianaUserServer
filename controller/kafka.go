@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/segmentio/kafka-go"
 	"lucianaUserServer/dao"
 	"lucianaUserServer/model"
@@ -20,6 +21,8 @@ func RegisterService(address string) error {
 		GroupID:        "rec_team",
 		StartOffset:    kafka.FirstOffset,
 	})
+
+	fmt.Println(" kafka 服务正在运行")
 
 	for {
 		ms, err := reader.ReadMessage(ctx)
