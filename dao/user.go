@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/listenGrey/lucianagRpcPKG/user"
 	"lucianaUserServer/model"
+	"gorm.io/gorm"
 )
 
 // CheckEmail 检查用户是否存在
@@ -19,11 +20,10 @@ func CheckEmail(email string) (bool, error) {
 	info := client.Where("email = ?", email).First(&u)
 
 	if info.Error != nil {
+		if info.Error == gorm.ErrRecordNotFound {
+			return false, nil
+		}
 		return false, info.Error
-	}
-
-	if info.RowsAffected == 0 {
-		return false, nil
 	}
 
 	return true, nil
@@ -59,14 +59,14 @@ func Login(l *user.LoginForm) (*model.LogInfo, error) {
 	info := client.Where("email = ?", l.Email).First(&u)
 
 	if info.Error != nil {
+		if info.Error == gorm.ErrRecordNotFound{
+			logInfo.Exist = false
+			return &logInfo, nil
+		}
 		return nil, info.Error
 	}
 
 	// 检查email是否存在
-	if info.RowsAffected == 0 {
-		logInfo.Exist = false
-		return &logInfo, nil
-	}
 
 	// 检查密码是否匹配
 	if u.Password != l.Password {
