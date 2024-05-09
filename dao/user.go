@@ -3,6 +3,7 @@ package dao
 import (
 	"errors"
 	"github.com/listenGrey/lucianagRpcPKG/user"
+	"gorm.io/gorm"
 	"lucianaUserServer/model"
 )
 
@@ -19,11 +20,10 @@ func CheckEmail(email string) (bool, error) {
 	info := client.Where("email = ?", email).First(&u)
 
 	if info.Error != nil {
+		if info.Error == gorm.ErrRecordNotFound {
+			return false, nil
+		}
 		return false, info.Error
-	}
-
-	if info.RowsAffected == 0 {
-		return false, nil
 	}
 
 	return true, nil
@@ -59,13 +59,12 @@ func Login(l *user.LoginForm) (*model.LogInfo, error) {
 	info := client.Where("email = ?", l.Email).First(&u)
 
 	if info.Error != nil {
+		// 检查email是否存在
+		if info.Error == gorm.ErrRecordNotFound {
+			logInfo.Exist = false
+			return &logInfo, nil
+		}
 		return nil, info.Error
-	}
-
-	// 检查email是否存在
-	if info.RowsAffected == 0 {
-		logInfo.Exist = false
-		return &logInfo, nil
 	}
 
 	// 检查密码是否匹配
