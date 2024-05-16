@@ -2,17 +2,23 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"lucianaUserServer/controller"
 )
 
 func main() {
 	fmt.Println("正在运行")
-	if err := controller.UserService(":8964"); err != nil {
-		log.Fatalf("Failed to connect, %s", err)
-	}
+	errCh1 := make(chan error)
+	errCh2 := make(chan error)
 
-	if err := controller.RegisterService(":9092"); err != nil {
-		log.Fatalf("kafka is not available, %s", err)
+	go controller.Register(errCh1)
+	go controller.User(errCh2)
+
+	for {
+		select {
+		case err := <-errCh1:
+			fmt.Printf("注册服务挂掉了, %s\n", err)
+		case err := <-errCh2:
+			fmt.Printf("用户服务挂掉了, %s\n", err)
+		}
 	}
 }

@@ -1,20 +1,21 @@
-package controller
+package logic
 
 import (
 	"fmt"
 	"github.com/listenGrey/lucianagRpcPKG/user"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"lucianaUserServer/conf"
 	service "lucianaUserServer/grpc"
 	"net"
 )
 
-func UserService(address string) error {
-	creds, err := credentials.NewServerTLSFromFile("/ca/server.crt", "/ca/server.key") // crt,key
+func UserService() error {
+	creds, err := credentials.NewServerTLSFromFile(conf.CertFile, conf.KeyFile) // crt,key
 	if err != nil {
 		return err
 	}
-	listen, err := net.Listen("tcp", address) //local ip and port
+	listen, err := net.Listen("tcp", conf.GrpcServerAddress) //local ip and port
 	if err != nil {
 		return err
 	}
