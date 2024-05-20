@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"fmt"
 	"github.com/listenGrey/lucianagRpcPKG/user"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -29,6 +28,6 @@ func UserService() error {
 	if err = server.Serve(listen); err != nil {
 		return err
 	}
-	fmt.Println(" gRpc 服务正在运行")
+
 	return nil
 }
