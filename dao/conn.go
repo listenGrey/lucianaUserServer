@@ -1,18 +1,19 @@
 package dao
 
 import (
-	"gorm.io/driver/mysql"
+	"fmt"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
-	"lucianaUserServer/conf"
 )
 
-// MySQLClient 创建MySQL客户端
-func MySQLClient() *gorm.DB {
-	db, err := gorm.Open(mysql.Open(conf.DBUser+":"+conf.DBPwd+"@tcp("+conf.DBAddress+")/"+conf.Database), &gorm.Config{})
+func GormDB() (*gorm.DB, error) {
+	dsn := "user=me password=tinghui0430 dbname=luciana_user host=localhost port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		// Logger: logger.Default.LogMode(logger.Info), // 启用详细日志
+	})
 	if err != nil {
-		log.Printf("无法连接到MySQL")
-		return nil
+		return nil, fmt.Errorf("Failed to connect to database: %v\n", err)
 	}
-	return db
+
+	return db, nil
 }

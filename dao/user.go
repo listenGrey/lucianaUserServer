@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"errors"
 	"github.com/listenGrey/lucianagRpcPKG/user"
 	"gorm.io/gorm"
 	"lucianaUserServer/model"
@@ -10,15 +9,14 @@ import (
 // CheckEmail 检查用户是否存在
 func CheckEmail(email string) (bool, error) {
 	// 连接DB
-	client := MySQLClient()
-	if client == nil {
-		return false, errors.New("无法连接到MySQL")
+	client, err := GormDB()
+	if err != nil {
+		return false, err
 	}
 
 	// 查找用户
 	var u model.User
 	info := client.Where("email = ?", email).First(&u)
-
 	if info.Error != nil {
 		if info.Error == gorm.ErrRecordNotFound {
 			return false, nil
@@ -29,35 +27,19 @@ func CheckEmail(email string) (bool, error) {
 	return true, nil
 }
 
-// Register 用户注册
-func Register(u *model.User) error {
-	// 连接DB
-	client := MySQLClient()
-	if client == nil {
-		return errors.New("无法连接到MySQL")
-	}
-
-	// 插入数据
-	info := client.Create(*u)
-	if info.Error != nil {
-		return info.Error
-	}
-
-	return nil
-}
-
 // Login 用户登录
 func Login(l *user.LoginForm) (*model.LogInfo, error) {
 	// 连接DB
-	client := MySQLClient()
-	if client == nil {
-		return nil, errors.New("无法连接到MySQL")
+	client, err := GormDB()
+	if err != nil {
+		return nil, err
 	}
 
 	var logInfo model.LogInfo
 	var u model.User
 	info := client.Where("email = ?", l.Email).First(&u)
 
+	// 检查email是否存在
 	if info.Error != nil {
 		if info.Error == gorm.ErrRecordNotFound {
 			logInfo.Exist = false
@@ -65,8 +47,6 @@ func Login(l *user.LoginForm) (*model.LogInfo, error) {
 		}
 		return nil, info.Error
 	}
-
-	// 检查email是否存在
 
 	// 检查密码是否匹配
 	if u.Password != l.Password {

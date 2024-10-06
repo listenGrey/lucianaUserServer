@@ -7,13 +7,14 @@ import (
 	"log"
 	"lucianaUserServer/dao"
 	"lucianaUserServer/model"
+	"lucianaUserServer/mq"
 )
 
 type CheckExistenceServer struct {
 	user.UnimplementedCheckExistServer
 }
 
-func (u *CheckExistenceServer) RegisterCheck(ctx context.Context, email *user.Email) (*user.Exist, error) {
+func (u *CheckExistenceServer) CheckExist(ctx context.Context, email *user.Email) (*user.Exist, error) {
 	_, ok := peer.FromContext(ctx)
 	if ok {
 		log.Printf("检查该用户是否存在")
@@ -45,4 +46,22 @@ func (u *LoginServer) LoginCheck(ctx context.Context, user *user.LoginForm) (*us
 	}
 
 	return model.LogInfoMarshal(info), nil
+}
+
+type RegisterServer struct {
+	user.UnimplementedRegisterCheckServer
+}
+
+func (u *RegisterServer) RegisterCheck(ctx context.Context, re *user.RegisterFrom) (*user.Success, error) {
+	_, ok := peer.FromContext(ctx)
+	if ok {
+		log.Printf("用户注册")
+	}
+
+	// 用户注册
+	err := mq.RegisterQueue(re)
+	if err != nil {
+		return &user.Success{Success: false}, err
+	}
+	return &user.Success{Success: true}, nil
 }
