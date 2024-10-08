@@ -26,7 +26,7 @@ func RegisterQueue(r *user.RegisterFrom) error {
 	defer writer.Close()
 
 	// 构造消息
-	key := []byte(fmt.Sprintf("%d", r.Id))             // key = id
+	key := []byte(fmt.Sprintf("%d", r.Uid))            // key = id
 	value, err := json.Marshal(model.UserUnmarshal(r)) // value = data
 	if err != nil {
 		return err

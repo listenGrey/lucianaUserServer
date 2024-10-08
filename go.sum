@@ -28,6 +28,8 @@ github.com/listenGrey/lucianagRpcPKG v0.0.9 h1:cU7KvV5wU9CTW5kILOtFPuT+szsOo5Ea9
 github.com/listenGrey/lucianagRpcPKG v0.0.9/go.mod h1:qkQ34ZzydD6NCJCMogfVxwmiwFycXzwpmIorlXRaV3o=
 github.com/listenGrey/lucianagRpcPKG v0.0.11 h1:VeTzan+p0Th2aXwih03M+XilB7heFGim4G4hzYZaxnY=
 github.com/listenGrey/lucianagRpcPKG v0.0.11/go.mod h1:qkQ34ZzydD6NCJCMogfVxwmiwFycXzwpmIorlXRaV3o=
+github.com/listenGrey/lucianagRpcPKG v0.1.0 h1:uSbSbUpdbcF8oPsRvEvRI+ihBfAuDQMZyQiTvpyS6vU=
+github.com/listenGrey/lucianagRpcPKG v0.1.0/go.mod h1:qkQ34ZzydD6NCJCMogfVxwmiwFycXzwpmIorlXRaV3o=
 github.com/pierrec/lz4/v4 v4.1.15 h1:MO0/ucJhngq7299dKLwIMtgTfbkoSPF6AoMYDd8Q4q0=
 github.com/pierrec/lz4/v4 v4.1.15/go.mod h1:gZWDp/Ze/IJXGXf23ltt2EXimqmTUXEy0GFuRQyBid4=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

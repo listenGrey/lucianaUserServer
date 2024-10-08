@@ -3,10 +3,11 @@ package model
 import "github.com/listenGrey/lucianagRpcPKG/user"
 
 type User struct {
-	UserID   int64  `json:"user_id" gorm:"column:user_id; primaryKey"`
-	UserName string `json:"user_name" gorm:"column:user_name"`
-	Email    string `json:"email" gorm:"column:email"`
-	Password string `json:"password" gorm:"column:password"`
+	UserID     int64  `json:"user_id" gorm:"column:user_id; primaryKey"`
+	UserName   string `json:"user_name" gorm:"column:user_name"`
+	Email      string `json:"email" gorm:"column:email"`
+	Password   string `json:"password" gorm:"column:password"`
+	Invitation string `json:"invitation" gorm:"column:invitation"`
 }
 
 type LogInfo struct {
@@ -19,7 +20,7 @@ type LogInfo struct {
 func LogInfoMarshal(l *LogInfo) *user.LogInfo {
 	var logInfo user.LogInfo
 
-	logInfo.UserId = l.UserId
+	logInfo.Uid = l.UserId
 	logInfo.UserName = l.UserName
 	logInfo.Exist = l.Exist
 	logInfo.Success = l.Success
@@ -30,7 +31,7 @@ func LogInfoMarshal(l *LogInfo) *user.LogInfo {
 func UserUnmarshal(re *user.RegisterFrom) *User {
 	var res User
 
-	res.UserID = re.Id
+	res.UserID = re.Uid
 	res.Email = re.Email
 	res.UserName = re.Name
 	res.Password = re.Password
