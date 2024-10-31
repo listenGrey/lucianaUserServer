@@ -1,8 +1,8 @@
 package conf
 
 var (
-	KafkaServerAddress = "38.12.32.192:9092"
-	GrpcServerAddress  = ":8964"
+	KafkaServerAddress = "156.238.248.187:9092"
+	GrpcServerAddress  = ":50051"
 	DBAddress          = "localhost:3306"
 	DBUser             = "root"
 	DBPwd              = "200004"
