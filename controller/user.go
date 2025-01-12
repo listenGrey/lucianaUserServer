@@ -3,9 +3,9 @@ package controller
 import (
 	"github.com/listenGrey/lucianagRpcPKG/user"
 	"google.golang.org/grpc"
-	"lucianaUserServer/conf"
 	service "lucianaUserServer/grpc"
 	"net"
+	"os"
 )
 
 func UserService() error {
@@ -13,7 +13,7 @@ func UserService() error {
 	if err != nil {
 		return err
 	}*/
-	listen, err := net.Listen("tcp", conf.GrpcServerAddress) //local ip and port
+	listen, err := net.Listen("tcp", ":"+os.Getenv("USER_PORT"))
 	if err != nil {
 		return err
 	}

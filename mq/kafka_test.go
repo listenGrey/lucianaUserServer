@@ -7,7 +7,7 @@ import (
 
 func TestRegisterQueue(t *testing.T) {
 	re := &user.RegisterFrom{
-		Id:       123456,
+		Uid:      123456,
 		Email:    "test@911.com",
 		Name:     "test register",
 		Password: "test password",

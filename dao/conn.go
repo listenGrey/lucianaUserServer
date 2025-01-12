@@ -1,19 +1,25 @@
 package dao
 
 import (
-	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"log"
+	"os"
+
+	"database/sql"
+	_ "github.com/lib/pq"
 )
 
-func GormDB() (*gorm.DB, error) {
-	dsn := "user=me password=tinghui0430 dbname=luciana_user host=localhost port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		// Logger: logger.Default.LogMode(logger.Info), // 启用详细日志
-	})
+var PostgreConn *sql.DB
+
+func init() {
+	var err error
+	connStr := "user=" + os.Getenv("POSTGRE_USER") + " dbname=" + os.Getenv("POSTGRE_DB") + " password=" + os.Getenv("POSTGRE_PWD") + " host=" + os.Getenv("POSTGRE_HOST") + " port=" + os.Getenv("POSTGRE_PORT") + " sslmode=disable"
+	PostgreConn, err = sql.Open("postgres", connStr)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to connect to database: %v\n", err)
+		log.Fatal(err)
 	}
 
-	return db, nil
+	// 设置连接池参数
+	PostgreConn.SetMaxOpenConns(20)   // 最大打开连接数
+	PostgreConn.SetMaxIdleConns(10)   // 最大空闲连接数
+	PostgreConn.SetConnMaxLifetime(0) // 连接的最大生命周期，0表示无限期
 }

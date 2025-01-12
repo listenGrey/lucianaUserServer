@@ -6,8 +6,8 @@ import (
 	"github.com/listenGrey/lucianagRpcPKG/user"
 	"github.com/segmentio/kafka-go"
 	"golang.org/x/net/context"
-	"lucianaUserServer/conf"
 	"lucianaUserServer/model"
+	"os"
 )
 
 // RegisterQueue 用户注册
@@ -15,7 +15,7 @@ func RegisterQueue(r *user.RegisterFrom) error {
 	ctx := context.Background()
 	// 创建 Kafka 生产者
 	writer := &kafka.Writer{
-		Addr:  kafka.TCP(conf.KafkaServerAddress),
+		Addr:  kafka.TCP(os.Getenv("KAFKA_ADDR") + ":" + os.Getenv("KAFKA_PORT")),
 		Topic: "register",
 		//Balancer:               &kafka.Hash{},
 		//WriteTimeout:           1 * time.Second,
